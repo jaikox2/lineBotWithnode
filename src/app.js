@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(routeIdx);
+app.use('/api', routeIdx);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
