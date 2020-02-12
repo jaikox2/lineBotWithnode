@@ -5,14 +5,14 @@ const accessToken = process.env.accessToken || 'NrkNVLQYgwL0kDGEFIjulNQ5hmHGak8h
 
 async function getInfo(userid) {
   try {
-    const reponse = await fetch(`https://api.line.me/v2/bot/profile/{${userid}}`, {
+    const reponse = await fetch(`https://api.line.me/v2/bot/profile/${userid}`, {
       method: 'GET',
       headers: {
         // eslint-disable-next-line quote-props
         'Authorization': `Bearer {${accessToken}}`,
       },
     });
-    return reponse;
+    return reponse.json();
   } catch (error) {
     console.error(error);
     return error;
@@ -22,12 +22,15 @@ async function getInfo(userid) {
 async function replyWebhook(data) {
   const { replyToken } = data.events[0];
   const msg = data.events[0].message.text;
-  console.log('info ', await getInfo(data.events[0].source.userId));
+  const info = await getInfo(data.events[0].source.userId);
   const body = JSON.stringify({
     replyToken,
     messages: [{
       type: 'text',
-      text: msg,
+      text: `Hello ${info.displayName}`,
+    }, {
+      type: 'text',
+      text: `your user id ${info.userId}`,
     }],
   });
   fetch('https://api.line.me/v2/bot/message/reply', {
