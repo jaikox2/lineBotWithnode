@@ -1,7 +1,9 @@
 const fetch = require('node-fetch');
+const { URLSearchParams } = require('url');
 
 const accessToken = process.env.accessToken || 'NrkNVLQYgwL0kDGEFIjulNQ5hmHGak8hzEvfpcTnP0pXoZDAq0ByR8XBekWdCe+t+T53vr2gR5BdVTrou/xfjDJOTMhOEQHi6XcdwhO6NH+PXgJqKRz/gghqMS1DM+CFSUOIziUP+nVM8l0xGN/k/QdB04t89/1O/w1cDnyilFU=';
-
+const clientId = process.env.clientId || '1603277440';
+const clientSecret = process.env.clientSecret || '47220ade1dbc2db027f18ba969eac75c';
 
 async function getInfo(userid) {
   try {
@@ -47,6 +49,27 @@ async function replyWebhook(data) {
   });
 }
 
+function getAccessToken() {
+  return new Promise((resolve, reject) => {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    params.append('client_id', clientId);
+    params.append('client_secret', clientSecret);
+    fetch('https://api.line.me/v2/oauth/accessToken', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params,
+    }).then((response) => {
+      resolve(response.json());
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
 module.exports = {
   replyWebhook,
+  getAccessToken,
 };
