@@ -29,7 +29,7 @@ function testImagemap() {
     altText: 'This is an imagemap',
     baseSize: {
       width: 1040,
-      height: 1040,
+      height: 701,
     },
     actions: [
       {
