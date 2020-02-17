@@ -23,9 +23,10 @@ async function getInfo(userid) {
 }
 
 function testImagemap() {
+  console.log('call test ImageMap');
   return {
     type: 'imagemap',
-    baseUrl: 'https://chatbot.isaactech-projects.com/api/images/menu',
+    baseUrl: 'https://chatbot.isaactech-projects.com/api/images/menuImage',
     altText: 'test update',
     baseSize: {
       width: 1040,

@@ -6,7 +6,7 @@ router.post('/webhook', (req, res) => {
   res.status(200).send('webhook');
 });
 
-router.get('/images/menu/:size', (req, res) => {
+router.get('/images/menuImage/:size', (req, res) => {
   const { size } = req.params;
   console.log(req, 'req');
   switch (size) {
