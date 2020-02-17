@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const { URLSearchParams } = require('url');
 
-const accessToken = process.env.accessToken || 'NrkNVLQYgwL0kDGEFIjulNQ5hmHGak8hzEvfpcTnP0pXoZDAq0ByR8XBekWdCe+t+T53vr2gR5BdVTrou/xfjDJOTMhOEQHi6XcdwhO6NH+PXgJqKRz/gghqMS1DM+CFSUOIziUP+nVM8l0xGN/k/QdB04t89/1O/w1cDnyilFU=';
+const accessToken = process.env.accessToken || 'CjV739v0O6bot9hFT8V4hyPyYnRZ7z/HgTh3+80m6Hw7NG2GT1hA7dHD/+C4SZvZ+T53vr2gR5BdVTrou/xfjDJOTMhOEQHi6XcdwhO6NH8G8bh1Gn546q8e+8Ke2H36JYSjA0Gkp7bXm5HV2br2PQdB04t89/1O/w1cDnyilFU=';
 const clientId = process.env.clientId || '1603277440';
 const clientSecret = process.env.clientSecret || '47220ade1dbc2db027f18ba969eac75c';
 
@@ -25,7 +25,7 @@ async function getInfo(userid) {
 function testImagemap() {
   return {
     type: 'imagemap',
-    baseUrl: 'PROVIDE_URL_FROM_YOUR_SERVER',
+    baseUrl: 'https://chatbot.isaactech-projects.com/images/linerichmenu.jpg',
     altText: 'This is an imagemap',
     baseSize: {
       width: 1040,
