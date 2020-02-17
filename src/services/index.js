@@ -25,7 +25,7 @@ async function getInfo(userid) {
 function testImagemap() {
   return {
     type: 'imagemap',
-    baseUrl: 'https://chatbot.isaactech-projects.com/images/linerichmenu.jpg',
+    baseUrl: 'https://chatbot.isaactech-projects.com/api/images/menu/1040',
     altText: 'This is an imagemap',
     baseSize: {
       width: 1040,
