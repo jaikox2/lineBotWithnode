@@ -18,7 +18,7 @@ router.get('/images/menu/:size', (req, res) => {
     case '700':
       return res.download('./src/public/images/menu/700.jpg');
     case '1040':
-      return res.download('./src/public/images/menu/1040.jpg');
+      return res.download('./src/public/images/menu/1041.jpg');
     default:
       return res.download('./src/public/images/menu/300.jpg');
   }
