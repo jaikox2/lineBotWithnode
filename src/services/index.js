@@ -101,8 +101,8 @@ async function replyWebhook(data) {
     body,
   }).then((response) => {
     return response.json();
-  }).then((data) => {
-    console.log(data);
+  }).then((data1) => {
+    console.log(data1);
   }).catch((error) => {
     // eslint-disable-next-line no-console
     console.error(error);
