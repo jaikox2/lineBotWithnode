@@ -85,9 +85,6 @@ async function replyWebhook(data) {
     messages: [{
       type: 'text',
       text: `Hello ${info.displayName}`,
-    }, {
-      type: 'text',
-      text: `your user id ${info.userId}`,
     },
     testImagemap()],
   });
