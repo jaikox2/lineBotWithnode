@@ -99,6 +99,10 @@ async function replyWebhook(data) {
       'Authorization': `Bearer {${accessToken}}`,
     },
     body,
+  }).then((response) => {
+    return response.json();
+  }).then((data) => {
+    console.log(data);
   }).catch((error) => {
     // eslint-disable-next-line no-console
     console.error(error);
