@@ -16,9 +16,64 @@ async function getInfo(userid) {
     });
     return reponse.json();
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
     return error;
   }
+}
+
+function testImagemap() {
+  return {
+    type: 'imagemap',
+    baseUrl: 'PROVIDE_URL_FROM_YOUR_SERVER',
+    altText: 'This is an imagemap',
+    baseSize: {
+      width: 1040,
+      height: 701,
+    },
+    actions: [
+      {
+        type: 'message',
+        area: {
+          x: 56,
+          y: 373,
+          width: 435,
+          height: 280,
+        },
+        text: 'เช็คสถานะ',
+      },
+      {
+        type: 'message',
+        area: {
+          x: 63,
+          y: 63,
+          width: 430,
+          height: 261,
+        },
+        text: 'เปลี่ยนชื่อ',
+      },
+      {
+        type: 'message',
+        area: {
+          x: 539,
+          y: 62,
+          width: 471,
+          height: 260,
+        },
+        text: 'เปลี่ยนโรงพยาบาล',
+      },
+      {
+        type: 'message',
+        area: {
+          x: 527,
+          y: 377,
+          width: 486,
+          height: 274,
+        },
+        text: 'ยอดเงินชราภาพ',
+      },
+    ],
+  };
 }
 
 async function replyWebhook(data) {
@@ -33,7 +88,8 @@ async function replyWebhook(data) {
     }, {
       type: 'text',
       text: `your user id ${info.userId}`,
-    }],
+    },
+    testImagemap()],
   });
   fetch('https://api.line.me/v2/bot/message/reply', {
     method: 'POST',
