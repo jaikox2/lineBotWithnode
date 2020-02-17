@@ -6,4 +6,8 @@ router.post('/webhook', (req, res) => {
   res.status(200).send('webhook');
 });
 
+router.get('/images/menu/1040', (req, res) => {
+  res.download('./src/public/images/linerichmenu.jpg');
+});
+
 module.exports = router;
