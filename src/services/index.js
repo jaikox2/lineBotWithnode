@@ -26,7 +26,7 @@ function testImagemap() {
   return {
     type: 'imagemap',
     baseUrl: 'https://chatbot.isaactech-projects.com/api/images/menu',
-    altText: 'This is an imagemap',
+    altText: 'test update',
     baseSize: {
       width: 1040,
       height: 701,

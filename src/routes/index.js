@@ -8,6 +8,7 @@ router.post('/webhook', (req, res) => {
 
 router.get('/images/menu/:size', (req, res) => {
   const { size } = req.params;
+  console.log(req, 'req');
   switch (size) {
     case '240':
       return res.download('./src/public/images/menu/240.jpg');
