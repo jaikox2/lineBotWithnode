@@ -83,6 +83,34 @@ async function caseReply(key, userId) {
       return {
         type: 'text',
         text: `สวัสดีครับคุณ ${info.displayName} ต้องการให้เราช่วยอะไรไหมครับ หากมีพิมพ์ "เมนู"`,
+        quickReply: {
+          items: [
+            {
+              type: 'action',
+              action: {
+                type: 'message',
+                label: 'เมนู',
+                text: 'เมนู',
+              },
+            },
+            {
+              type: 'action',
+              action: {
+                type: 'message',
+                label: 'ยอดเงินชราภาพ',
+                text: 'ยอดเงินชราภาพ',
+              },
+            },
+            {
+              type: 'action',
+              action: {
+                type: 'message',
+                label: 'ขอบคุณครับ',
+                text: 'ขอบคุณครับ',
+              },
+            },
+          ],
+        },
       };
     case 'ยอดเงินชราภาพ':
       return {
