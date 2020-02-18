@@ -82,7 +82,7 @@ async function caseReply(key, userId) {
     case 'สวัสดีครับ':
       return {
         type: 'text',
-        text: `Hello ${info.displayName}`,
+        text: `สวัสดีครับคุณ ${info.displayName} ต้องการให้เราช่วยอะไรไหมครับ หากมีพิมพ์ "เมนู"`,
       };
     case 'ยอดเงินชราภาพ':
       return {
