@@ -8,6 +8,7 @@ router.post('/webhook', (req, res) => {
 
 router.get('/images/menuImage/:size', (req, res) => {
   const { size } = req.params;
+  // eslint-disable-next-line no-console
   console.log(req, 'req');
   switch (size) {
     case '240':

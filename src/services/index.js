@@ -23,7 +23,6 @@ async function getInfo(userid) {
 }
 
 function testImagemap() {
-  console.log('call test ImageMap');
   return {
     type: 'imagemap',
     baseUrl: 'https://chatbot.isaactech-projects.com/api/images/menuImage',
@@ -77,17 +76,39 @@ function testImagemap() {
   };
 }
 
+async function caseReply(key, userId) {
+  const info = await getInfo(userId);
+  switch (key) {
+    case 'สวัสดีครับ':
+      return {
+        type: 'text',
+        text: `Hello ${info.displayName}`,
+      };
+    case 'ยอดเงินชราภาพ':
+      return {
+        type: 'text',
+        text: `ยอดเงินสมทบชราภาพของคุณ ${info.displayName} รวม 10,000 บาท`,
+      };
+    case 'ขอบคุณครับ':
+      return {
+        type: 'text',
+        text: 'ด้วยความยินดีครับ',
+      };
+    case 'เมนู':
+      return testImagemap();
+    default:
+      return {
+        type: 'text',
+        text: `ขอโทษนะครับ ผมไม่เข้าใจที่คุณ ${info.displayName} พิมพ์หากต้องการให้ทางผมช่วยกรุณาพิมพ์ "เมนู"`,
+      };
+  }
+}
+
 async function replyWebhook(data) {
   const { replyToken } = data.events[0];
-  const msg = data.events[0].message.text;
-  const info = await getInfo(data.events[0].source.userId);
   const body = JSON.stringify({
     replyToken,
-    messages: [{
-      type: 'text',
-      text: `Hello ${info.displayName}`,
-    },
-    testImagemap()],
+    messages: [await caseReply(data.events[0].message.text, data.events[0].source.userId)],
   });
   fetch('https://api.line.me/v2/bot/message/reply', {
     method: 'POST',
@@ -97,9 +118,8 @@ async function replyWebhook(data) {
       'Authorization': `Bearer {${accessToken}}`,
     },
     body,
-  }).then((response) => {
-    return response.json();
-  }).then((data1) => {
+  }).then((response) => response.json()).then((data1) => {
+    // eslint-disable-next-line no-console
     console.log(data1);
   }).catch((error) => {
     // eslint-disable-next-line no-console
