@@ -1,5 +1,9 @@
 const fetch = require('node-fetch');
 const { URLSearchParams } = require('url');
+const { promisify } = require('util');
+const sizeOf = promisify(require('image-size'));
+const fs = require('fs');
+const resizeImg = require('resize-img');
 
 const accessToken = process.env.accessToken || 'CjV739v0O6bot9hFT8V4hyPyYnRZ7z/HgTh3+80m6Hw7NG2GT1hA7dHD/+C4SZvZ+T53vr2gR5BdVTrou/xfjDJOTMhOEQHi6XcdwhO6NH8G8bh1Gn546q8e+8Ke2H36JYSjA0Gkp7bXm5HV2br2PQdB04t89/1O/w1cDnyilFU=';
 const clientId = process.env.clientId || '1603277440';
@@ -157,18 +161,24 @@ async function replyWebhook(data) {
 
 async function caseKiosReply(key, userId) {
   const info = await getInfo(userId);
-  switch (key) {
-    case 'สวัสดีครับ':
-    case 'สวัสดีค่ะ':
+  switch (true) {
+    case (key.indexOf('สวัสดีครับ') !== -1):
+    case (key.indexOf('สวัสดีค่ะ') !== -1):
       return {
         type: 'text',
         text: `สวัสดีครับคุณ ${info.displayName}`,
       };
-    case 'ขอบคุณครับ':
-    case 'ขอบคุณค่ะ':
+    case (key.indexOf('ขอบคุณครับ') !== -1):
+    case (key.indexOf('ขอบคุณค่ะ') !== -1):
       return {
         type: 'text',
         text: 'ด้วยความยินดีครับ',
+      };
+    case (key.indexOf('image') !== -1):
+      return {
+        type: 'image',
+        originalContentUrl: `https://chatbot.isaactech-projects.com/api/images/originalContentUrl/${key}`,
+        previewImageUrl: `https://chatbot.isaactech-projects.com/api/images/previewImageUrl/${key}`,
       };
     default:
       return {
@@ -222,8 +232,29 @@ function getAccessToken() {
   });
 }
 
+function calculateImageSizeAutoHeight(originWidth, originHeight, futureWidth) {
+  const percentage = parseInt(futureWidth, 10) / parseInt(originWidth, 10);
+  const futureHeight = parseInt(originHeight, 10) * parseFloat(percentage);
+  return Math.round(futureHeight);
+}
+
+async function resizeImage(width, path) {
+  try {
+    const dimensions = await sizeOf(path);
+    const autoHeight = calculateImageSizeAutoHeight(dimensions.width, dimensions.height, width);
+    const imageBuf = await resizeImg(fs.readFileSync(path), {
+      width,
+      height: autoHeight,
+    });
+    return imageBuf;
+  } catch (error) {
+    return error;
+  }
+}
+
 module.exports = {
   replyWebhook,
   getAccessToken,
   replyKiosWebhook,
+  resizeImage,
 };

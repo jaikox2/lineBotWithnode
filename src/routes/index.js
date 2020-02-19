@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const { promisify } = require('util');
+const sizeOf = promisify(require('image-size'));
 const serviceIdx = require('../services/index');
 
 router.post('/webhook', (req, res) => {
@@ -29,6 +31,35 @@ router.get('/images/menuImage/:size', (req, res) => {
     default:
       return res.download('./src/public/images/menu/300.jpg');
   }
+});
+
+router.get('/images/originalContentUrl/:name', async (req, res) => {
+  const { name } = req.params;
+  const path = `./src/public/images/${name}`;
+  const dimensions = await sizeOf(path);
+  if (dimensions.width < 4096) {
+    res.download(path);
+  } else {
+    const imgBuf = serviceIdx.resizeImage(4096, path);
+    res.set({
+      'Content-Type': 'image/jpeg',
+      'Content-Disposition': `attachment; filename=${name}`,
+      'Accept-Ranges': 'bytes',
+    });
+    res.send(imgBuf);
+  }
+});
+
+router.get('/images/previewImageUrl/:name', (req, res) => {
+  const { name } = req.params;
+  const path = `./src/public/images/${name}`;
+  const imgBuf = serviceIdx.resizeImage(240, path);
+  res.set({
+    'Content-Type': 'image/jpeg',
+    'Content-Disposition': `attachment; filename=${name}`,
+    'Accept-Ranges': 'bytes',
+  });
+  return res.send(imgBuf);
 });
 
 module.exports = router;
