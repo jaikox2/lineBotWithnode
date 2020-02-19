@@ -155,6 +155,53 @@ async function replyWebhook(data) {
   });
 }
 
+async function caseKiosReply(key, userId) {
+  const info = await getInfo(userId);
+  switch (key) {
+    case 'สวัสดีครับ':
+    case 'สวัสดีค่ะ':
+      return {
+        type: 'text',
+        text: `สวัสดีครับคุณ ${info.displayName}`,
+      };
+    case 'ขอบคุณครับ':
+    case 'ขอบคุณค่ะ':
+      return {
+        type: 'text',
+        text: 'ด้วยความยินดีครับ',
+      };
+    default:
+      return {
+        type: 'text',
+        text: `ขอโทษนะครับ ผมไม่เข้าใจที่คุณ ${info.displayName} พิมพ์หากต้องการให้ทางผมช่วยกรุณา ติดต่อเจ้าหน้าที่ครับ`,
+      };
+  }
+}
+
+async function replyKiosWebhook(data) {
+  const { replyToken } = data.events[0];
+  const accessTokenKios = '2H5rg35J9wbx1affAZK80EUKgPsFtWmplWFhinTy581fPQm3Qf6/7ADelnhDOEp3czdWxnyrIzfNwq++H1EdYBYbpTDBat5dI86a+puIa3QazTUE2cAV46gFHkFefqSF9gDpPkBdrtVXCO62fh0GJQdB04t89/1O/w1cDnyilFU=';
+  const body = JSON.stringify({
+    replyToken,
+    messages: [await caseKiosReply(data.events[0].message.text, data.events[0].source.userId)],
+  });
+  fetch('https://api.line.me/v2/bot/message/reply', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // eslint-disable-next-line quote-props
+      'Authorization': `Bearer {${accessTokenKios}}`,
+    },
+    body,
+  }).then((response) => response.json()).then((data1) => {
+    // eslint-disable-next-line no-console
+    console.log(data1);
+  }).catch((error) => {
+    // eslint-disable-next-line no-console
+    console.error(error);
+  });
+}
+
 function getAccessToken() {
   return new Promise((resolve, reject) => {
     const params = new URLSearchParams();
@@ -178,4 +225,5 @@ function getAccessToken() {
 module.exports = {
   replyWebhook,
   getAccessToken,
+  replyKiosWebhook,
 };

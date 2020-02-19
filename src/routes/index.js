@@ -6,6 +6,11 @@ router.post('/webhook', (req, res) => {
   res.status(200).send('webhook');
 });
 
+router.post('/kios/image/webhook', (req, res) => {
+  serviceIdx.replyKiosWebhook(req.body);
+  res.status(200).send('webhook');
+});
+
 router.get('/images/menuImage/:size', (req, res) => {
   const { size } = req.params;
   // eslint-disable-next-line no-console
