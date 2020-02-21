@@ -11,11 +11,8 @@ async function callSendAPI(senderPsid, response) {
       },
       message: response,
     };
-    const reponse = await fetch('https://graph.facebook.com/v2.6/me/messages', {
+    const reponse = await fetch(`https://graph.facebook.com/v2.6/me/messages?access_token=${PageAccessToken}`, {
       method: 'POST',
-      headers: {
-        access_token: PageAccessToken,
-      },
       body: requestBody,
     });
     return reponse.json();
