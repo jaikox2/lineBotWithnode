@@ -15,7 +15,10 @@ router.post('/facebook/webhook', (req, res) => {
       const webhookEvent = entry.messaging[0];
       // eslint-disable-next-line no-console
       console.log(webhookEvent);
+      let sender_psid = webhookEvent.sender.id;
+      console.log('Sender PSID: ' + sender_psid);
     });
+    console.log(body);
     res.status(200).send('EVENT_RECEIVED');
   } else {
     res.sendStatus(404);
