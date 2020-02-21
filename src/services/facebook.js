@@ -4,21 +4,18 @@ const PageAccessToken = process.env.PAGE_ACCESS_TOKEN;
 
 
 async function callSendAPI(senderPsid, response) {
-  try {
-    const requestBody = {
-      recipient: {
-        id: senderPsid,
-      },
-      message: response,
-    };
-    const reponse = await fetch(`https://graph.facebook.com/v2.6/me/messages?access_token=${PageAccessToken}`, {
-      method: 'POST',
-      body: requestBody,
-    });
-    return reponse.json();
-  } catch (error) {
-    return error;
-  }
+  const requestBody = {
+    recipient: {
+      id: senderPsid,
+    },
+    message: response,
+  };
+  fetch(`https://graph.facebook.com/v6.0/me/messages?access_token=${PageAccessToken}`, {
+    method: 'POST',
+    body: requestBody,
+  }).then((res) => res.json()).then((json) => {
+    console.log('res ', json);
+  }).catch((err) => console.log('err ', err));
 }
 
 function handleMessage(senderPsid, receivedMessage) {
