@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { promisify } = require('util');
 const sizeOf = promisify(require('image-size'));
 const serviceIdx = require('../services/index');
+const serviceFacebook = require('../services/facebook');
 
 router.post('/webhook', (req, res) => {
   serviceIdx.replyWebhook(req.body);
@@ -13,12 +14,13 @@ router.post('/facebook/webhook', (req, res) => {
   if (body.object === 'page') {
     body.entry.forEach((entry) => {
       const webhookEvent = entry.messaging[0];
-      // eslint-disable-next-line no-console
-      console.log(webhookEvent);
-      let sender_psid = webhookEvent.sender.id;
-      console.log('Sender PSID: ' + sender_psid);
+
+      if (webhookEvent.message) {
+        serviceFacebook.handleMessage(webhookEvent.sender.id, webhookEvent.message);
+      } else if (webhookEvent.postback) {
+        serviceFacebook.handlePostback(webhookEvent.sender.id, webhookEvent.postback);
+      }
     });
-    console.log(body);
     res.status(200).send('EVENT_RECEIVED');
   } else {
     res.sendStatus(404);
