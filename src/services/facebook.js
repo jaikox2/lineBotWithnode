@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const request = require('request');
 
 const PageAccessToken = process.env.PAGE_ACCESS_TOKEN;
 
@@ -10,12 +10,20 @@ async function callSendAPI(senderPsid, response) {
     },
     message: response,
   };
-  fetch(`https://graph.facebook.com/v6.0/me/messages?access_token=${PageAccessToken}`, {
+  request({
+    uri: 'https://graph.facebook.com/v6.0/me/messages',
+    qs: {
+      access_token: PageAccessToken,
+    },
     method: 'POST',
-    body: requestBody,
-  }).then((res) => res.json()).then((json) => {
-    console.log('res ', json);
-  }).catch((err) => console.log('err ', err));
+    json: requestBody,
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent!');
+    } else {
+      console.error(`Unable to send message: ${err}`);
+    }
+  });
 }
 
 function handleMessage(senderPsid, receivedMessage) {
