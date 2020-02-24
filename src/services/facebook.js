@@ -1,6 +1,6 @@
 const request = require('request');
 
-const PageAccessToken = process.env.PAGE_ACCESS_TOKEN;
+const PageAccessToken = process.env.PAGE_ACCESS_TOKEN || 'EAAC1g1P9VZCwBAIXtMlXgAiQhNBMUkrZCvlOaiyBcKpjeizpKPZB79dtNj8NY82XE4ZCUSEtWz9XTqhIrYMxT4EvJNHZBYQ66v4NLWUywu9AJEp6hooN2ZALMCjNHDm73hvRzAJpKI7T44mZBCZAj5o6joOiNFbLDO3jRR2PmfiavZBoITqDMip9m';
 
 
 async function callSendAPI(senderPsid, response) {
