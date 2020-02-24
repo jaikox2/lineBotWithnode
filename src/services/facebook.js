@@ -17,7 +17,7 @@ async function callSendAPI(senderPsid, response) {
     },
     method: 'POST',
     json: requestBody,
-  }, (err, res, body) => {
+  }, (err) => {
     if (!err) {
       console.log('message sent!');
     } else {
@@ -74,7 +74,7 @@ function handlePostback(senderPsid, receivedPostback) {
   } else if (payload === 'no') {
     response = { text: 'Oops, try sending another image.' };
   }
-  // Send the message to acknowledge the postback
+
   callSendAPI(senderPsid, response);
 }
 

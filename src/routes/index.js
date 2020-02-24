@@ -14,7 +14,7 @@ router.post('/facebook/webhook', (req, res) => {
   if (body.object === 'page') {
     body.entry.forEach((entry) => {
       const webhookEvent = entry.messaging[0];
-
+      console.log(webhookEvent);
       if (webhookEvent.message) {
         serviceFacebook.handleMessage(webhookEvent.sender.id, webhookEvent.message);
       } else if (webhookEvent.postback) {
@@ -34,8 +34,6 @@ router.get('/facebook/webhook', (req, res) => {
   const challenge = req.query['hub.challenge'];
   if (mode && token) {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-      // eslint-disable-next-line no-console
-      console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     } else {
       res.sendStatus(403);
