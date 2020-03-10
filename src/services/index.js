@@ -157,6 +157,24 @@ function caseReply(key, info) {
       return [{
         type: 'text',
         text: `สถานะประกันสังคมของคุณ ${info.displayName} อยู่ในสถานะ [หมดอายุ]`,
+        quickReply: {
+          items: [
+            {
+              type: "action",
+              action: {
+                type: "cameraRoll",
+                label: "Send photo"
+              }
+            },
+            {
+              type: "action",
+              action: {
+                type: "camera",
+                label: "Open camera"
+              },
+            },
+          ],
+        },
       }];
     case (key.indexOf('วันที่ลงทะเบียนประกัน') !== -1):
       return [{
