@@ -8,7 +8,7 @@ const {
   fetchReplyWebhook,
 } = require('./fetch');
 
-const quickReplies = {
+const quickReply = {
   items: [
     {
       type: 'action',
@@ -22,7 +22,7 @@ const quickReplies = {
       type: 'action',
       action: {
         type: 'message',
-        label: 'หน่วยงานที่รับผิดชอบ',
+        label: 'หน่วยงานรับผิดชอบ',
         text: 'หน่วยงานที่รับผิดชอบ',
       },
     },
@@ -30,7 +30,7 @@ const quickReplies = {
       type: 'action',
       action: {
         type: 'message',
-        label: 'ยอดเงินสมทบชราภาพคงเหลือ',
+        label: 'ยอดเงินชราภาพคงเหลือ',
         text: 'ยอดเงินสมทบชราภาพคงเหลือ',
       },
     },
@@ -131,74 +131,43 @@ function caseReply(key, info) {
       {
         type: 'text',
         text: 'https://developers.line.me',
-        quickReply: quickReplies,
+        quickReply,
       }];
     case (key.indexOf('โรงพยาบาลปัจจุบัน') !== -1):
       return [{
         type: 'text',
         text: `ประกันสังคมของคุณ ${info.displayName} ลงทะเบียนที่ [โรงพยาบาล]`,
+        quickReply,
       }];
     case (key.indexOf('หน่วยงานที่รับผิดชอบ') !== -1):
       return [{
         type: 'text',
         text: 'รับผิดชอบโดยหน่วยงาน สปส',
+        quickReply,
       }];
     case (key.indexOf('ยอดเงินสมทบชราภาพคงเหลือ') !== -1):
       return [{
         type: 'text',
         text: `ยอดเงินสมทบชราภาพขอคุณ ${info.displayName} คงเหลือ [1000] บาท`,
+        quickReply,
       }];
     case (key.indexOf('สิทธิฯรายปีคงเหลือ') !== -1):
       return [{
         type: 'text',
         text: `ยอดเงินคงเหลือของ ${info.displayName} คงเหลือ [3000] บาท`,
+        quickReply,
       }];
     case (key.indexOf('วันหมดอายุประกันสังคม') !== -1):
       return [{
         type: 'text',
         text: `สถานะประกันสังคมของคุณ ${info.displayName} อยู่ในสถานะ [หมดอายุ]`,
-        quickReply: {
-          items: [
-            {
-              type: 'action',
-              action: {
-                type: 'message',
-                label: 'โรงพยาบาลปัจจุบัน',
-                text: 'โรงพยาบาลปัจจุบัน',
-              },
-            },
-            {
-              type: 'action',
-              action: {
-                type: 'message',
-                label: 'หน่วยงานรับผิดชอบ',
-                text: 'หน่วยงานที่รับผิดชอบ',
-              },
-            },
-            {
-              type: 'action',
-              action: {
-                type: 'message',
-                label: 'ยอดเงินชราภาพคงเหลือ',
-                text: 'ยอดเงินสมทบชราภาพคงเหลือ',
-              },
-            },
-            {
-              type: 'action',
-              action: {
-                type: 'message',
-                label: 'สิทธิฯรายปีคงเหลือ',
-                text: 'สิทธิฯรายปีคงเหลือ',
-              },
-            },
-          ],
-        },
+        quickReply,
       }];
     case (key.indexOf('วันที่ลงทะเบียนประกัน') !== -1):
       return [{
         type: 'text',
         text: `คุณ ${info.displayName} เข้าระบบประกันเมื่อ [20/02/2015]`,
-        quickReply: quickReplies,
+        quickReply,
       }];
     case (key.indexOf('ขอบคุณครับ') !== -1):
       return [{
@@ -211,6 +180,7 @@ function caseReply(key, info) {
       return [{
         type: 'text',
         text: `ขอโทษนะครับ ผมไม่เข้าใจที่คุณ ${info.displayName} พิมพ์หากต้องการให้ทางผมช่วยกรุณาพิมพ์ "เมนู"`,
+        quickReply,
       }];
   }
 }
