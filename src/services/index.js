@@ -160,17 +160,35 @@ function caseReply(key, info) {
         quickReply: {
           items: [
             {
-              type: "action",
+              type: 'action',
               action: {
-                type: "cameraRoll",
-                label: "Send photo"
-              }
+                type: 'message',
+                label: 'โรงพยาบาลปัจจุบัน',
+                text: 'โรงพยาบาลปัจจุบัน',
+              },
             },
             {
-              type: "action",
+              type: 'action',
               action: {
-                type: "camera",
-                label: "Open camera"
+                type: 'message',
+                label: 'หน่วยงานที่รับผิดชอบ',
+                text: 'หน่วยงานที่รับผิดชอบ',
+              },
+            },
+            {
+              type: 'action',
+              action: {
+                type: 'message',
+                label: 'ยอดเงินสมทบชราภาพคงเหลือ',
+                text: 'ยอดเงินสมทบชราภาพคงเหลือ',
+              },
+            },
+            {
+              type: 'action',
+              action: {
+                type: 'message',
+                label: 'สิทธิฯรายปีคงเหลือ',
+                text: 'สิทธิฯรายปีคงเหลือ',
               },
             },
           ],
