@@ -3,6 +3,10 @@ const { promisify } = require('util');
 const sizeOf = promisify(require('image-size'));
 const serviceIdx = require('../services/index');
 const serviceFacebook = require('../services/facebook');
+const {
+  insertUsers,
+} = require('../services/pgFetch');
+
 
 router.post('/webhook', (req, res) => {
   serviceIdx.replyWebhook(req.body);
@@ -14,7 +18,6 @@ router.post('/facebook/webhook', (req, res) => {
   if (body.object === 'page') {
     body.entry.forEach((entry) => {
       const webhookEvent = entry.messaging[0];
-      console.log(webhookEvent);
       if (webhookEvent.message) {
         serviceFacebook.handleMessage(webhookEvent.sender.id, webhookEvent.message);
       } else if (webhookEvent.postback) {
@@ -101,6 +104,53 @@ router.get('/images/previewImageUrl/:name', async (req, res, next) => {
     });
     res.send(imgBuf);
   } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/liff/sso/verified', async (req, res, next) => {
+  const request = req.body;
+  try {
+    if (request.lineId && request.personalId && request.name
+    && request.lastname && request.dob && request.phone) {
+      // connect with sso
+      res.status(200).send({
+        code: 200,
+        message: 'success',
+      });
+    } else {
+      const err = new Error('require invalid');
+      next(err);
+    }
+  } catch (error) {
+    error.status = 500;
+    next(error);
+  }
+});
+
+router.post('/liff/otp/verified', async (req, res, next) => {
+  const request = req.body;
+  try {
+    if (request.lineId && request.personalId && request.name
+    && request.lastname && request.dob && request.phone) {
+      if (request.OTP === '12345') {
+        await insertUsers(request.lineId, request.personalId, request.name,
+          request.lastname, request.dob, request.phone);
+
+        res.status(200).send({
+          code: 200,
+          message: 'success',
+        });
+      } else {
+        const err = new Error('OTP invalid');
+        next(err);
+      }
+    } else {
+      const err = new Error('require invalid');
+      next(err);
+    }
+  } catch (error) {
+    error.status = 500;
     next(error);
   }
 });
