@@ -83,7 +83,7 @@ function testImagemap() {
           width: 435,
           height: 280,
         },
-        text: 'เช็คสถานะ',
+        text: 'วันหมดอายุประกันสังคม',
       },
       {
         type: 'message',
@@ -93,27 +93,27 @@ function testImagemap() {
           width: 430,
           height: 261,
         },
-        text: 'เปลี่ยนชื่อ',
+        text: 'วันที่ลงทะเบียนประกัน',
       },
       {
-        type: 'message',
+        type: 'uri',
         area: {
           x: 539,
           y: 62,
           width: 471,
           height: 260,
         },
-        text: 'เปลี่ยนโรงพยาบาล',
+        linkUri: 'https://pantip.com/',
       },
       {
-        type: 'message',
+        type: 'uri',
         area: {
           x: 527,
           y: 377,
           width: 486,
           height: 274,
         },
-        text: 'ยอดเงินชราภาพ',
+        linkUri: 'https://developers.line.me',
       },
     ],
   }];
