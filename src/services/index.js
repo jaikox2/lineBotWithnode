@@ -68,7 +68,7 @@ async function resizeImage(width, path) {
 function testImagemap() {
   return [{
     type: 'imagemap',
-    baseUrl: 'https://chatbot.isaactech-projects.com/api/images/menuImage',
+    baseUrl: 'https://chatbot.isaactech-projects.com/api/images/menuImages',
     altText: 'change menu',
     baseSize: {
       width: 1040,

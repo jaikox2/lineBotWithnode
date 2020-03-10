@@ -51,7 +51,7 @@ router.post('/kios/image/webhook', (req, res) => {
   res.status(200).send('webhook');
 });
 
-router.get('/images/menuImage/:size', async (req, res, next) => {
+router.get('/images/menuImages/:size', async (req, res, next) => {
   const { size } = req.params;
   const path = './src/public/images/menu/menu.png';
   // eslint-disable-next-line no-console
