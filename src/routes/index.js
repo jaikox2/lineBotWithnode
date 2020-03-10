@@ -51,23 +51,41 @@ router.post('/kios/image/webhook', (req, res) => {
   res.status(200).send('webhook');
 });
 
-router.get('/images/menuImage/:size', (req, res) => {
+router.get('/images/menuImage/:size', async (req, res, next) => {
   const { size } = req.params;
+  const path = './src/public/images/menu/menu.png';
   // eslint-disable-next-line no-console
   console.log(req, 'req');
-  switch (size) {
-    case '240':
-      return res.download('./src/public/images/menu/240.jpg');
-    case '300':
-      return res.download('./src/public/images/menu/300.jpg');
-    case '640':
-      return res.download('./src/public/images/menu/640.jpg');
-    case '700':
-      return res.download('./src/public/images/menu/700.jpg');
-    case '1040':
-      return res.download('./src/public/images/menu/1041.jpg');
-    default:
-      return res.download('./src/public/images/menu/300.jpg');
+  try {
+    let imgBuf;
+    switch (size) {
+      case '240':
+        imgBuf = await serviceIdx.resizeImage(240, path);
+        break;
+      case '300':
+        imgBuf = await serviceIdx.resizeImage(300, path);
+        break;
+      case '640':
+        imgBuf = await serviceIdx.resizeImage(640, path);
+        break;
+      case '700':
+        imgBuf = await serviceIdx.resizeImage(700, path);
+        break;
+      case '1040':
+        imgBuf = await serviceIdx.resizeImage(1040, path);
+        break;
+      default:
+        imgBuf = await serviceIdx.resizeImage(300, path);
+    }
+    res.set({
+      'Content-Type': 'image/jpeg',
+      'Content-Disposition': `attachment; filename=${size}.png`,
+      'Accept-Ranges': 'bytes',
+    });
+    res.send(imgBuf);
+  } catch (error) {
+    error.status = 500;
+    next(error);
   }
 });
 
