@@ -172,7 +172,7 @@ function caseReply(key, info) {
               action: {
                 type: 'message',
                 label: 'office',
-                text: 'หน่วยงานที่รับผิดชอบ',
+                text: 'หน่วยงานรับผิดชอบ',
               },
             },
             {
@@ -180,7 +180,7 @@ function caseReply(key, info) {
               action: {
                 type: 'message',
                 label: 'amount',
-                text: 'ยอดเงินสมทบชราภาพคงเหลือ',
+                text: 'เงินชราภาพคงเหลือ',
               },
             },
             {
