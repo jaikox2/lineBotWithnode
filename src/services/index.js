@@ -179,8 +179,8 @@ function caseReply(key, info) {
               type: 'action',
               action: {
                 type: 'message',
-                label: 'ยอดเงินสมทบชราภาพคงเหลือ',
-                text: 'เงินชราภาพคงเหลือ',
+                label: 'ยอดเงินชราภาพคงเหลือ',
+                text: 'ยอดเงินสมทบชราภาพคงเหลือ',
               },
             },
             {
