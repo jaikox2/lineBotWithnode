@@ -69,7 +69,7 @@ function testImagemap() {
   return [{
     type: 'imagemap',
     baseUrl: 'https://chatbot.isaactech-projects.com/api/images/menuImage',
-    altText: 'test update',
+    altText: 'change menu',
     baseSize: {
       width: 1040,
       height: 701,
