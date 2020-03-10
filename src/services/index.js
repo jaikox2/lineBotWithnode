@@ -163,7 +163,7 @@ function caseReply(key, info) {
               type: 'action',
               action: {
                 type: 'message',
-                label: 'hospital',
+                label: 'โรงพยาบาลปัจจุบัน',
                 text: 'โรงพยาบาลปัจจุบัน',
               },
             },
@@ -171,15 +171,15 @@ function caseReply(key, info) {
               type: 'action',
               action: {
                 type: 'message',
-                label: 'office',
-                text: 'หน่วยงานรับผิดชอบ',
+                label: 'หน่วยงานรับผิดชอบ',
+                text: 'หน่วยงานที่รับผิดชอบ',
               },
             },
             {
               type: 'action',
               action: {
                 type: 'message',
-                label: 'amount',
+                label: 'ยอดเงินสมทบชราภาพคงเหลือ',
                 text: 'เงินชราภาพคงเหลือ',
               },
             },
@@ -187,7 +187,7 @@ function caseReply(key, info) {
               type: 'action',
               action: {
                 type: 'message',
-                label: 'yearbenefit',
+                label: 'สิทธิฯรายปีคงเหลือ',
                 text: 'สิทธิฯรายปีคงเหลือ',
               },
             },
