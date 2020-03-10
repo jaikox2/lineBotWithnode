@@ -8,7 +8,7 @@ const {
   fetchReplyWebhook,
 } = require('./fetch');
 
-const quickReply = {
+const quickReplies = {
   items: [
     {
       type: 'action',
@@ -127,11 +127,11 @@ function caseReply(key, info) {
       return [{
         type: 'text',
         text: `สวัสดีครับคุณ ${info.displayName} หากคุณยังไม่ได้ลงทะเบียนกรุณาลงทะเบียนก่อนครับ`,
-        quickReply,
       },
       {
-        type: 'uri',
-        uri: 'https://developers.line.me',
+        type: 'text',
+        text: 'https://developers.line.me',
+        quickReply: quickReplies,
       }];
     case (key.indexOf('โรงพยาบาลปัจจุบัน') !== -1):
       return [{
@@ -162,6 +162,7 @@ function caseReply(key, info) {
       return [{
         type: 'text',
         text: `คุณ ${info.displayName} เข้าระบบประกันเมื่อ [20/02/2015]`,
+        quickReply: quickReplies,
       }];
     case (key.indexOf('ขอบคุณครับ') !== -1):
       return [{
