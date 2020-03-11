@@ -38,8 +38,8 @@ const quickReply = {
       type: 'action',
       action: {
         type: 'message',
-        label: 'สิทธิฯรายปีคงเหลือ',
-        text: 'สิทธิฯรายปีคงเหลือ',
+        label: 'สิทธิฯทันตกรรมเหลือ',
+        text: 'สิทธิฯทันตกรรมเหลือ',
       },
     },
   ],
@@ -151,10 +151,10 @@ function caseReply(key, info) {
         text: `ยอดเงินสมทบชราภาพขอคุณ ${info.displayName} คงเหลือ [1000] บาท`,
         quickReply,
       }];
-    case (key.indexOf('สิทธิฯรายปีคงเหลือ') !== -1):
+    case (key.indexOf('สิทธิฯทันตกรรมเหลือ') !== -1):
       return [{
         type: 'text',
-        text: `ยอดเงินคงเหลือของ ${info.displayName} คงเหลือ [3000] บาท`,
+        text: `ยอดเงินคงเหลือของ ${info.displayName} คงเหลือ [900] บาท`,
         quickReply,
       }];
     case (key.indexOf('วันหมดอายุประกันสังคม') !== -1):
