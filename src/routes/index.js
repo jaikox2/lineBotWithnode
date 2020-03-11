@@ -5,6 +5,8 @@ const serviceIdx = require('../services/index');
 const serviceFacebook = require('../services/facebook');
 const {
   insertUsers,
+  queryUsers,
+  updateLogout,
 } = require('../services/pgFetch');
 
 
@@ -163,6 +165,59 @@ router.post('/liff/otp/verified', async (req, res, next) => {
         const err = new Error('OTP invalid');
         next(err);
       }
+    } else {
+      const err = new Error('require invalid');
+      next(err);
+    }
+  } catch (error) {
+    error.status = 500;
+    next(error);
+  }
+});
+
+router.post('/liff/login/verified', async (req, res, next) => {
+  const request = req.body;
+  try {
+    if (request.lineId) {
+      const users = await queryUsers(request.lineId);
+
+      if (users.rows.length > 0) {
+        if (users.rows[0].islogin) {
+          res.status(200).send({
+            code: 200,
+            message: 'success',
+          });
+        } else {
+          res.status(401).send({
+            code: 401,
+            message: 'login fail',
+          });
+        }
+      } else {
+        res.status(401).send({
+          code: 401,
+          message: 'login fail',
+        });
+      }
+    } else {
+      const err = new Error('require invalid');
+      next(err);
+    }
+  } catch (error) {
+    error.status = 500;
+    next(error);
+  }
+});
+
+router.post('/liff/logout', (req, res, next) => {
+  const request = req.body;
+  try {
+    if (request.lineId) {
+      updateLogout(request.lineId);
+      res.status(200).send({
+        code: 200,
+        message: 'success',
+      });
     } else {
       const err = new Error('require invalid');
       next(err);

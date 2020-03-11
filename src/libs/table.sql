@@ -1,6 +1,6 @@
 CREATE TABLE users(
    id serial PRIMARY KEY,
-   lineId VARCHAR (50) UNIQUE NOT NULL,
+   lineId VARCHAR (50) NOT NULL,
    personalId VARCHAR (50) NOT NULL,
    name VARCHAR (50) NOT NULL,
    lastname VARCHAR (50) NOT NULL,

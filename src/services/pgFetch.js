@@ -45,7 +45,19 @@ function insertUsers(lineId, personalId, name, lastname, dob, phone) {
 
 function queryUsers(lineId) {
   return new Promise((resolve, reject) => {
-    const text = 'SELECT * FROM users WHERE lineId=$1;';
+    const text = 'SELECT * FROM users WHERE lineId=$1 ORDER BY id DESC;';
+    const values = [lineId];
+    fetchQuery(text, values).then((res) => {
+      resolve(res);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+function updateLogout(lineId) {
+  return new Promise((resolve, reject) => {
+    const text = 'UPDATE users SET isLogin=false WHERE lineId=$1;';
     const values = [lineId];
     fetchQuery(text, values).then((res) => {
       resolve(res);
@@ -58,4 +70,5 @@ function queryUsers(lineId) {
 module.exports = {
   insertUsers,
   queryUsers,
+  updateLogout,
 };
