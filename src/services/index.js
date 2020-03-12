@@ -192,8 +192,11 @@ async function replyWebhook(data) {
     const users = await queryUsers(data.events[0].source.userId);
     const info = await fetchInfo(data.events[0].source.userId);
     let message;
-    if (users.rows.length > 0 && users.rows[0].isLogin) {
-      const profile = await fetchProfile(users.rows[0].personalid);
+    if (users.rows.length > 0 && users.rows[0].islogin) {
+      const body = {
+        nid: users.rows[0].personalid,
+      };
+      const profile = await fetchProfile(body);
       if (profile.error) {
         message = [{
           type: 'text',
