@@ -123,15 +123,6 @@ function fetchMoneySavingLists(body) {
   });
 }
 
-async function test () {
-  const body = {
-    nid: '3740300343475',
-  }
-  const d = await fetchProfile(body);
-  console.log(d);
-}
-test();
-
 module.exports = {
   fetchInfo,
   fetchAccessToken,
