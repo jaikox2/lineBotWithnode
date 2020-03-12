@@ -6,7 +6,12 @@ const resizeImg = require('resize-img');
 const {
   fetchInfo,
   fetchReplyWebhook,
+  fetchProfile,
 } = require('./fetch');
+
+const {
+  queryUsers,
+} = require('./pgFetch');
 
 const quickReply = {
   items: [
@@ -119,54 +124,50 @@ function testImagemap() {
   }];
 }
 
-function caseReply(key, info) {
+function caseReply(key, info, profile) {
   switch (true) {
     case (key.indexOf('สวัสดีครับ') !== -1):
     case (key.indexOf('สวัสดีค่ะ') !== -1):
     case (key.indexOf('สวัสดี') !== -1):
       return [{
         type: 'text',
-        text: `สวัสดีครับคุณ ${info.displayName} หากคุณยังไม่ได้ลงทะเบียนกรุณาลงทะเบียนก่อนครับ`,
-      },
-      {
-        type: 'text',
-        text: 'https://developers.line.me',
+        text: `สวัสดีครับคุณ ${info.displayName} น้อง bot ยินดีให้ความช่วยเหลือครับ`,
         quickReply,
       }];
     case (key.indexOf('โรงพยาบาลปัจจุบัน') !== -1):
       return [{
         type: 'text',
-        text: `ประกันสังคมของคุณ ${info.displayName} ลงทะเบียนที่ [โรงพยาบาล]`,
+        text: `ประกันสังคมของคุณ ${info.displayName} ลงทะเบียนที่ [${profile.hosp_name}]`,
         quickReply,
       }];
     case (key.indexOf('หน่วยงานที่รับผิดชอบ') !== -1):
       return [{
         type: 'text',
-        text: 'รับผิดชอบโดยหน่วยงาน สปส',
+        text: `รับผิดชอบโดยหน่วยงาน ${profile.res_organize}`,
         quickReply,
       }];
     case (key.indexOf('ยอดเงินสมทบชราภาพคงเหลือ') !== -1):
       return [{
         type: 'text',
-        text: `ยอดเงินสมทบชราภาพขอคุณ ${info.displayName} คงเหลือ [1000] บาท`,
+        text: `ยอดเงินสมทบชราภาพขอคุณ ${info.displayName} คงเหลือ [${profile.total}] บาท`,
         quickReply,
       }];
     case (key.indexOf('สิทธิฯทันตกรรมเหลือ') !== -1):
       return [{
         type: 'text',
-        text: `ยอดเงินคงเหลือของ ${info.displayName} คงเหลือ [900] บาท`,
+        text: `ยอดเงินคงเหลือของ ${info.displayName} คงเหลือ [${profile.dentist}] บาท`,
         quickReply,
       }];
     case (key.indexOf('วันหมดอายุประกันสังคม') !== -1):
       return [{
         type: 'text',
-        text: `สถานะประกันสังคมของคุณ ${info.displayName} อยู่ในสถานะ [หมดอายุ]`,
+        text: `สถานะประกันสังคมของคุณ ${info.displayName} อยู่ในสถานะ [${profile.status}]`,
         quickReply,
       }];
     case (key.indexOf('วันที่ลงทะเบียนประกัน') !== -1):
       return [{
         type: 'text',
-        text: `คุณ ${info.displayName} เข้าระบบประกันเมื่อ [20/02/2015]`,
+        text: `คุณ ${info.displayName} เข้าระบบประกันเมื่อ [${profile.start}]`,
         quickReply,
       }];
     case (key.indexOf('ขอบคุณครับ') !== -1):
@@ -188,10 +189,32 @@ function caseReply(key, info) {
 async function replyWebhook(data) {
   try {
     const { replyToken } = data.events[0];
+    const users = await queryUsers(data.events[0].source.userId);
     const info = await fetchInfo(data.events[0].source.userId);
+    let message;
+    if (users.rows.length > 0 && users.rows[0].isLogin) {
+      const profile = await fetchProfile(users.rows[0].personalid);
+      if (profile.error) {
+        message = [{
+          type: 'text',
+          text: `ไม่พบข้อมูลที่หมาบเลขบัตรประชาชนนี้ ${users.rows[0].personalid}`,
+        }];
+      } else {
+        message = caseReply(data.events[0].message.text, info, profile);
+      }
+    } else {
+      message = [{
+        type: 'text',
+        text: `สวัสดีครับคุณ ${info.displayName} คุณยังไม่ได้ลงทะเบียนกรุณาลงทะเบียนก่อนครับ`,
+      },
+      {
+        type: 'text',
+        text: 'https://developers.line.me',
+      }];
+    }
     const body = JSON.stringify({
       replyToken,
-      messages: caseReply(data.events[0].message.text, info),
+      messages: message,
     });
     fetchReplyWebhook(body);
   } catch (error) {
