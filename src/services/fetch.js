@@ -72,10 +72,62 @@ async function saveToken() {
 cron.schedule('* */480 * * *', () => {
   saveToken();
 });
-saveToken();
+// saveToken();
+
+// fetch to sso
+function fetchRegister(body) {
+  return new Promise((resolve, reject) => {
+    fetch('http://kathiprojects.com/ssoconnect/check_account.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    }).then((res) => res.json()).then((res) => {
+      resolve(res);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+}
+
+function fetchProfile(body) {
+  return new Promise((resolve, reject) => {
+    fetch('http://kathiprojects.com/ssoconnect/profile.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    }).then((res) => res.json()).then((res) => {
+      resolve(res);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+}
+
+function fetchMoneySavingLists(body) {
+  return new Promise((resolve, reject) => {
+    fetch('http://kathiprojects.com/ssoconnect/saving_list.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    }).then((res) => res.json()).then((res) => {
+      resolve(res);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+}
 
 module.exports = {
   fetchInfo,
   fetchAccessToken,
   fetchReplyWebhook,
+  fetchRegister,
+  fetchMoneySavingLists,
+  fetchProfile,
 };

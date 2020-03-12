@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { promisify } = require('util');
 const sizeOf = promisify(require('image-size'));
+const moment = require('moment');
 const serviceIdx = require('../services/index');
 const serviceFacebook = require('../services/facebook');
 const {
@@ -8,6 +9,10 @@ const {
   queryUsers,
   updateLogout,
 } = require('../services/pgFetch');
+const {
+  fetchRegister,
+  fetchMoneySavingLists,
+} = require('../services/fetch');
 
 
 router.post('/webhook', (req, res) => {
@@ -134,10 +139,31 @@ router.post('/liff/sso/verified', async (req, res, next) => {
     if (request.lineId && request.personalId && request.name
     && request.lastname && request.dob && request.phone) {
       // connect with sso
-      res.status(200).send({
-        code: 200,
-        message: 'success',
-      });
+
+      if (moment(request.dob, 'YYYYMMDD').isValid()) {
+        const body = {
+          name: request.name,
+          surname: request.lastname,
+          dob: request.dob,
+          nid: request.personalId,
+          phone: request.phone,
+        };
+
+        const result = await fetchRegister(body);
+
+        if (result.error) {
+          const err = new Error(result.msg);
+          next(err);
+        } else {
+          res.status(200).send({
+            code: 200,
+            message: 'success',
+          });
+        }
+      } else {
+        const err = new Error('require date format invalid only (YYYYmmdd)');
+        next(err);
+      }
     } else {
       const err = new Error('require invalid');
       next(err);
@@ -218,6 +244,43 @@ router.post('/liff/logout', (req, res, next) => {
         code: 200,
         message: 'success',
       });
+    } else {
+      const err = new Error('require invalid');
+      next(err);
+    }
+  } catch (error) {
+    error.status = 500;
+    next(error);
+  }
+});
+
+router.post('/liff/sso/saving/lists', async (req, res, next) => {
+  const request = req.body;
+  try {
+    if (request.lineId) {
+      const users = await queryUsers(request.lineId);
+      if (users.rows.length > 0) {
+        const body = {
+          nid: users.rows[0].personalId,
+          list_type: 'year',
+        };
+
+        const lists = await fetchMoneySavingLists(body);
+
+        if (lists.error) {
+          const err = new Error(lists.msg);
+          next(err);
+        } else {
+          res.status(200).send({
+            code: 200,
+            message: 'success',
+            data: lists.list,
+          });
+        }
+      } else {
+        const err = new Error('can not found this {lineId}');
+        next(err);
+      }
     } else {
       const err = new Error('require invalid');
       next(err);
