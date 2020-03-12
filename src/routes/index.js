@@ -274,7 +274,12 @@ router.post('/liff/sso/saving/lists', async (req, res, next) => {
           res.status(200).send({
             code: 200,
             message: 'success',
-            data: lists.list,
+            data: {
+              list: lists.list,
+              name: users.rows[0].name,
+              lastname: users.rows[0].lastname,
+              personalId: users.rows[0].personalid,
+            },
           });
         }
       } else {
