@@ -175,6 +175,12 @@ function caseReply(key, info, profile) {
         type: 'text',
         text: 'ด้วยความยินดีครับ',
       }];
+    case (key.indexOf('ลงทะเบียนแล้วจ้า') !== -1):
+      return [{
+        type: 'text',
+        text: 'เรายินดีให้บริการครับ',
+        quickReply,
+      }];
     case (key.indexOf('เมนู') !== -1):
       return testImagemap();
     default:
@@ -205,6 +211,11 @@ async function replyWebhook(data) {
       } else {
         message = caseReply(data.events[0].message.text, info, profile);
       }
+    } else if (data.events[0].message.text.indexOf('ยกเลิกลงทะเบียนแล้วจ้า') !== -1) {
+      message = [{
+        type: 'text',
+        text: 'ขอบคุณที่ใช้บริการเราครับ',
+      }];
     } else {
       message = [{
         type: 'text',
