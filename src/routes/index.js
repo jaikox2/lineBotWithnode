@@ -261,7 +261,7 @@ router.post('/liff/sso/saving/lists', async (req, res, next) => {
       const users = await queryUsers(request.lineId);
       if (users.rows.length > 0) {
         const body = {
-          nid: users.rows[0].personalId,
+          nid: users.rows[0].personalid,
           list_type: 'year',
         };
 
