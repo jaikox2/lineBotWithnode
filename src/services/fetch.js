@@ -72,7 +72,7 @@ async function saveToken() {
 cron.schedule('* */480 * * *', () => {
   saveToken();
 });
-// saveToken();
+saveToken();
 
 // fetch to sso
 function fetchRegister(body) {
