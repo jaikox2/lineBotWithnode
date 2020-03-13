@@ -220,10 +220,6 @@ async function replyWebhook(data) {
       message = [{
         type: 'text',
         text: `สวัสดีครับคุณ ${info.displayName} คุณยังไม่ได้ลงทะเบียนกรุณาลงทะเบียนก่อนครับ`,
-      },
-      {
-        type: 'text',
-        text: 'https://developers.line.me',
       }];
     }
     const body = JSON.stringify({
